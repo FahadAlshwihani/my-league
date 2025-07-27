@@ -1,0 +1,427 @@
+/* Main Container */
+.matches-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 900px;
+  margin: 3rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  color: var(--text-color, #e0e0e0);
+  background: var(--background, rgba(255, 255, 255, 0.1));
+  border-radius: 18px;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 0 15px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(25px);
+  transition: background 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  overflow-y: visible;
+  padding-top: 20px; /* or whatever your original was */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.round-card {
+  background: rgba(30, 40, 60, 0.7);
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Card-specific scrolling */
+  max-height: none;
+  overflow: visible;
+  scrollbar-width: thin;
+}
+
+@media (max-width: 768px) {
+  .matches-container {
+    max-width: 100%;
+    padding: 10px;
+    margin: 1rem auto;
+  }
+
+  .round-container {
+    padding: 0.6rem;
+    margin: 0.75rem 0;
+  }
+
+.round-header {
+  font-size: 1.5rem;
+  color: #64dcff;
+  margin-bottom: 15px;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(100, 220, 255, 0.8);
+}
+
+  .match-table {
+    font-size: 0.6rem;
+    overflow-x: hidden;
+    display: block;
+    white-space: normal;
+    word-wrap: break-word;
+    width: 100%;
+    min-width: 100%; /* Prevents horizontal scroll */
+    border-collapse: collapse;
+  }
+
+.match-table thead {
+  background: linear-gradient(135deg, #64dcff, #50b4f0);
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.match-table tbody tr:hover {
+  background: rgba(100, 220, 255, 0.1);
+}
+
+.match-table tbody tr {
+  background: rgba(20, 30, 50, 0.5);
+  transition: background 0.3s ease;
+}
+
+.match-table th, .match-table td {
+  padding: 1rem;
+  text-align: center;
+  border: none;
+}
+
+  .match-table thead tr {
+    font-size: 0.55rem;
+  }
+
+  .match-table tbody td {
+    padding: 0.3rem 0.4rem;
+  }
+
+  .score-input {
+    width: 22px;
+    height: 22px;
+    font-size: 0.55rem;
+  }
+}
+
+.matches-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.matches-container input {
+  text-align: center;
+  padding: 4px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.matches-table {
+  margin: 20px 0;
+}
+
+.score-inputs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.score-inputs input {
+  text-align: center;
+  padding: 2px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.score-select {
+  width: 50px;
+  padding: 5px;
+  margin: 0 5px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.score-separator {
+  margin: 0 5px;
+}
+
+.score-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bye-text {
+  color: gray;
+  font-weight: 500;
+}
+
+/* Header Section */
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.header-section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #4299e1, #38b2ac, #9f7aea);
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #2d3748;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.league-badge img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s ease;
+}
+
+.league-badge:hover img {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Round Container */
+.round-container {
+  margin-bottom: 2.5rem;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 18px;
+  box-shadow:
+    0 0 15px rgba(100, 220, 255, 0.4),
+    inset 0 0 20px rgba(100, 220, 255, 0.3);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(15px);
+  border: 1.5px solid rgba(100, 220, 255, 0.4);
+  text-align: center;
+}
+
+.round-container:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 0 25px rgba(100, 220, 255, 0.7),
+    inset 0 0 30px rgba(100, 220, 255, 0.5);
+}
+
+.round-header {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #64dcff;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px rgba(100, 220, 255, 0.7);
+  user-select: none;
+  text-align: center;
+}
+
+.round-number {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-right: 1rem;
+}
+
+.divider {
+  flex-grow: 1;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.5);
+  margin: 0 1rem;
+}
+
+/* Matches Grid */
+.matches-grid {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+}
+
+@media (max-width: 768px) {
+  .matches-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Match Card */
+.match-card {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  box-shadow:
+    0 0 12px rgba(100, 220, 255, 0.3),
+    inset 0 0 8px rgba(100, 220, 255, 0.2);
+  transition: background 0.3s ease, transform 0.2s ease;
+  cursor: default;
+}
+
+.match-card:hover {
+  background: rgba(100, 220, 255, 0.15);
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(100, 220, 255, 0.6);
+}
+
+.teams-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.team {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.team:hover {
+  background-color: #f8fafc;
+}
+
+.team-home {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.team-away {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.team-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin: 0 0.75rem;
+  border-radius: 50%;
+  background: #f1f5f9;
+  padding: 3px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.team-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #64dcff;
+}
+
+/* Score Inputs */
+.score-inputs {
+  display: flex;
+  align-items: center;
+  margin: 0 1rem;
+  min-width: 100px;
+  justify-content: center;
+}
+
+.score-input {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 6px;
+  border: 1px solid rgba(100, 220, 255, 0.5);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  margin: 0 5px;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 8px rgba(100, 220, 255, 0.4);
+  outline: none;
+}
+
+.score-input:focus {
+  border: 1px solid #64dcff;
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 0 12px rgba(100, 220, 255, 0.8);
+}
+
+.score-input:hover {
+  border-color: #50b4f0;
+  box-shadow:
+    0 0 10px rgba(80, 180, 240, 0.6);
+}
+
+.separator {
+  margin: 0 0.5rem;
+  font-weight: 700;
+  color: #4a5568;
+}
+
+/* Match Meta */
+.match-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed #e2e8f0;
+  color: #718096;
+  font-size: 0.875rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.match-card {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.match-card:nth-child(odd) {
+  animation-delay: 0.1s;
+}
+
+.match-card:nth-child(even) {
+  animation-delay: 0.2s;
+}
+
+/* Loading State (optional) */
+.loading .team-name,
+.loading .score-input,
+.loading .match-meta span {
+  background: #f1f5f9;
+  color: transparent;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.loading .team-name::after,
+.loading .score-input::after,
+.loading .match-meta span::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}

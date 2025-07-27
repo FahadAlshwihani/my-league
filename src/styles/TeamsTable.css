@@ -1,0 +1,303 @@
+/* Teams Table Styles */
+.teams-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  min-width: 600px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #e0e0e0;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.teams-table thead tr {
+  background: linear-gradient(135deg, #64dcff, #50b4f0);
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 12px;
+}
+
+.teams-table thead th {
+  padding: 1rem 1.2rem;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  user-select: none;
+}
+
+.teams-table tbody tr {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  transition: background 0.3s ease, transform 0.2s ease;
+  cursor: default;
+  box-shadow: 0 0 8px rgba(100, 220, 255, 0.2);
+}
+
+.teams-table tbody tr:hover,
+.teams-table tbody tr:focus-within {
+  background: rgba(100, 220, 255, 0.15);
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(100, 220, 255, 0.6);
+  outline: none;
+}
+
+.teams-table tbody tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.teams-table tbody td {
+  padding: 1rem 1.2rem;
+  text-align: center;
+  user-select: none;
+  border: none;
+}
+
+.teams-table tbody td:first-child {
+  text-align: left;
+  padding-left: 2rem;
+  font-weight: 600;
+  color: #64dcff;
+}
+
+.medal-icon {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+  vertical-align: middle;
+}
+
+/* Mobile grid/card layout */
+@media (max-width: 768px) {
+  .teams-table {
+    display: none; /* Hide the table on mobile */
+  }
+
+  .teams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
+    perspective: 1000px;
+    max-height: 70vh; /* Set a max height to allow scrolling */
+    overflow-y: auto;
+  }
+  
+  .teams-container {
+  max-height: 60vh;
+  overflow-y: auto; /* Page-level scrolling */
+  padding: 20px;
+}
+
+  .team-card {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    box-shadow:
+      0 0 20px rgba(100, 220, 255, 0.6),
+      inset 0 0 30px rgba(100, 220, 255, 0.4);
+    padding: 1.5rem;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(100, 220, 255, 0.5);
+    cursor: pointer;
+    transform-style: preserve-3d;
+  }
+
+  .team-card:hover,
+  .team-card:focus-within {
+    transform: translateY(-10px) rotateX(5deg);
+    box-shadow:
+      0 0 30px rgba(100, 220, 255, 0.9),
+      inset 0 0 40px rgba(100, 220, 255, 0.6);
+    outline: none;
+  }
+
+  .team-rank {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+  }
+
+  .team-name {
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #64dcff;
+    text-shadow: 0 0 10px rgba(100, 220, 255, 0.8);
+  }
+
+  .team-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .team-stats > div {
+    min-width: 70px;
+    background: rgba(100, 220, 255, 0.1);
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    box-shadow: 0 0 8px rgba(100, 220, 255, 0.3);
+    transition: background 0.3s ease;
+  }
+
+  .team-stats > div:hover {
+    background: rgba(100, 220, 255, 0.3);
+  }
+}
+/* Teams Table Styles - Glass Morphism UI */
+.teams-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  min-width: 600px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #e0e0e0;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.teams-table thead tr {
+  background: rgba(100, 220, 255, 0.3); /* Glassy background */
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px); /* Glass effect */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Glassy border */
+}
+
+.teams-table thead th {
+  padding: 1rem 1.2rem;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  user-select: none;
+}
+
+.teams-table tbody tr {
+  background: rgba(20, 30, 50, 0.4); /* Glassy background */
+  border-radius: 12px;
+  transition: background 0.3s ease, transform 0.2s ease;
+  cursor: default;
+  box-shadow: 0 0 8px rgba(100, 220, 255, 0.2);
+  backdrop-filter: blur(5px); /* Glass effect */
+}
+
+.teams-table tbody tr:hover,
+.teams-table tbody tr:focus-within {
+  background: rgba(100, 220, 255, 0.15); /* Hover effect */
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(100, 220, 255, 0.6);
+  outline: none;
+}
+
+.teams-table tbody tr:nth-child(even) {
+  background: rgba(30, 40, 60, 0.4); /* Glassy effect for even rows */
+}
+
+.teams-table tbody td {
+  padding: 1rem 1.2rem;
+  text-align: center;
+  user-select: none;
+  border: none;
+}
+
+.teams-table tbody td:first-child {
+  text-align: left;
+  padding-left: 2rem;
+  font-weight: 600;
+  color: #64dcff;
+}
+
+.medal-icon {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+  vertical-align: middle;
+}
+
+/* Mobile grid/card layout */
+@media (max-width: 768px) {
+  .teams-table {
+    display: none; /* Hide the table on mobile */
+  }
+
+  .teams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
+    perspective: 1000px;
+  }
+
+  .team-card {
+    background: rgba(30, 40, 60, 0.5); /* Glassy background */
+    border-radius: 20px;
+    box-shadow:
+      0 0 20px rgba(100, 220, 255, 0.6),
+      inset 0 0 30px rgba(100, 220, 255, 0.4);
+    padding: 1.5rem;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    backdrop-filter: blur(20px); /* Glass effect */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Glassy border */
+    cursor: pointer;
+    transform-style: preserve-3d;
+  }
+
+  .team-card:hover,
+  .team-card:focus-within {
+    transform: translateY(-10px) rotateX(5deg);
+    box-shadow:
+      0 0 30px rgba(100, 220, 255, 0.9),
+      inset 0 0 40px rgba(100, 220, 255, 0.6);
+    outline: none;
+  }
+
+  .team-rank {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+  }
+
+  .team-name {
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #64dcff;
+    text-shadow: 0 0 10px rgba(100, 220, 255, 0.8);
+  }
+
+  .team-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .team-stats > div {
+    min-width: 70px;
+    background: rgba(100, 220, 255, 0.1);
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    box-shadow: 0 0 8px rgba(100, 220, 255, 0.3);
+    transition: background 0.3s ease;
+  }
+
+  .team-stats > div:hover {
+    background: rgba(100, 220, 255, 0.3);
+  }
+}
