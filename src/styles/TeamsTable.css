@@ -9,7 +9,13 @@
   font-size: 1rem;
   transition: all 0.3s ease;
 }
-
+.creative-heading-team {
+  font-size: 1.5rem;
+  color: #3b82f6; /* Blue color */
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
 .teams-table thead tr {
   background: linear-gradient(135deg, #64dcff, #50b4f0);
   color: white;
@@ -68,9 +74,17 @@
 }
 
 /* Mobile grid/card layout */
+/* Mobile grid/card layout */
 @media (max-width: 768px) {
   .teams-table {
     display: none; /* Hide the table on mobile */
+  }
+
+  .teams-container {
+    max-height: 65vh; /* Set a max height to allow scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 20px; /* Optional padding */
+    box-sizing: border-box; /* Include padding in height */
   }
 
   .teams-grid {
@@ -79,15 +93,7 @@
     gap: 1.5rem;
     padding: 1rem 0;
     perspective: 1000px;
-    max-height: 70vh; /* Set a max height to allow scrolling */
-    overflow-y: auto;
   }
-  
-  .teams-container {
-  max-height: 60vh;
-  overflow-y: auto; /* Page-level scrolling */
-  padding: 20px;
-}
 
   .team-card {
     background: rgba(0, 0, 0, 0.25);
@@ -152,6 +158,7 @@
     background: rgba(100, 220, 255, 0.3);
   }
 }
+
 /* Teams Table Styles - Glass Morphism UI */
 .teams-table {
   width: 100%;

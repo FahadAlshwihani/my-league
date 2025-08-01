@@ -1,0 +1,203 @@
+/* ========== OVERLAY ========== */
+.swal-overlay {
+  background: rgba(15, 15, 15, 0.7) !important;
+  backdrop-filter: blur(18px) !important;
+  z-index: 10000 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  position: fixed !important;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ========== MODAL CARD ========== */
+.swal-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-radius: 20px !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.3),
+    inset 0 0 30px rgba(255, 255, 255, 0.04) !important;
+  padding: 2.5rem !important;
+  max-width: 500px;
+  width: 90%;
+  font-family: 'Poppins', sans-serif !important;
+  z-index: 9999;
+  backdrop-filter: blur(20px);
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* ========== DISABLE BACKGROUND ANIMATION ========== */
+.swal-modal::before {
+  content: none !important;
+}
+
+/* ========== SUCCESS ICON ========== */
+.swal-icon--success {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  width: 80px !important;
+  height: 80px !important;
+  margin: 0 auto 20px auto !important;
+  position: relative;
+}
+
+.swal-icon {
+  width: 80px !important;
+  height: 80px !important;
+  margin: 0 auto 20px auto !important;
+}
+
+.swal-icon--success__hide-corners {
+  background: transparent !important;
+}
+
+.swal-icon--success__ring {
+  border: 4px solid #28a745 !important;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+}
+
+/* ========== TITLE & MESSAGE ========== */
+.swal-title {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin-top: 12px !important;
+  margin-bottom: 0 !important; /* remove space between title & message */
+  text-align: center;
+  text-shadow: none !important;
+}
+
+.swal-text {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 1.15rem !important;
+  margin-top: 0 !important; /* remove space after title */
+  margin-bottom: 20px !important;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ========== BUTTONS BOTTOM RIGHT ========== */
+.swal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: auto;
+  align-self: flex-end;
+  padding-top: 1rem;
+  margin-bottom: -0.5rem;
+}
+
+/* ========== MODERN GLASS BUTTONS ========== */
+.swal-button {
+  font-weight: 600 !important;
+  font-size: 1rem;
+  padding: 12px 28px !important;
+  border-radius: 14px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease !important;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.swal-button::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to right, #00ff88, #00ccff);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: -1;
+}
+
+.swal-button:hover::before {
+  opacity: 0.25;
+}
+
+.swal-button--confirm:hover {
+  background: rgba(40, 167, 69, 0.3) !important;
+  border-color: rgba(40, 167, 69, 0.5) !important;
+  box-shadow: 0 0 10px rgba(40, 167, 69, 0.5) !important;
+  transform: translateY(-2px);
+}
+
+.swal-button--cancel:hover {
+  background: rgba(220, 53, 69, 0.3) !important;
+  border-color: rgba(220, 53, 69, 0.5) !important;
+  box-shadow: 0 0 10px rgba(220, 53, 69, 0.4) !important;
+  transform: translateY(-2px);
+  color: #fff !important;
+
+}
+
+.swal-button:focus {
+  box-shadow: none !important;
+}
+
+/* ========== MOZ PSEUDO-ELEMENT FIX ========== */
+.swal-modal::before,
+.swal-modal::after,
+.swal-icon::before,
+.swal-icon::after,
+.swal-icon--success::before,
+.swal-icon--success::after {
+  background: transparent !important;
+}
+.swal-button--cancel {
+  background: rgba(220, 53, 69, 0.25) !important;
+  border-color: rgba(220, 53, 69, 0.4) !important;
+  color: #ffdddd !important;
+}
+/* Remove green gradient overlay from cancel button hover */
+.swal-button--cancel:hover::before {
+  background: linear-gradient(to right, #ff4c4c, #cc0000) !important; /* red gradient */
+  opacity: 0.25 !important;
+}
+
+/* Cancel button base styles */
+.swal-button--cancel {
+  background: rgba(220, 53, 69, 0.25) !important;
+  border-color: rgba(220, 53, 69, 0.4) !important;
+  color: #ffdddd !important;
+}
+
+/* Cancel button hover styles */
+.swal-button--cancel:hover {
+  background: rgba(220, 53, 69, 0.4) !important;
+  border-color: rgba(220, 53, 69, 0.6) !important;
+  box-shadow: 0 0 12px rgba(220, 53, 69, 0.6) !important;
+  transform: translateY(-2px);
+  color: #fff !important;
+}
+
+.swal-button--cancel:hover {
+  background: rgba(220, 53, 69, 0.4) !important;
+  border-color: rgba(220, 53, 69, 0.6) !important;
+  box-shadow: 0 0 12px rgba(220, 53, 69, 0.6) !important;
+  transform: translateY(-2px);
+  color: #bd0000 !important;
+}
+.swal-button--confirm:hover {
+
+  color: #00cc07 !important;
+}

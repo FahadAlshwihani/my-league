@@ -1,11 +1,15 @@
+// src/components/GlassLeagueCard.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { saveLeagueSetup, loadLeagueSetup, clearLeagueSetup } from '../utils/storage';
 import { FaPlus, FaTrash } from 'react-icons/fa';
 import '../styles/GlassLeagueCard.css';
 import LoadingScreen from './LoadingScreen';
+import { showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
+import { useTranslation } from 'react-i18next';
 
-export default function GlassLeagueCard() {
+export default function GlassLeagueCard({ setIsLoading }) { // Accept setIsLoading prop
+    const { t } = useTranslation();
     const [teamsCount, setTeamsCount] = useState('');
     const [teams, setTeams] = useState([]);
     const [roundType, setRoundType] = useState('double-round');
@@ -39,20 +43,41 @@ export default function GlassLeagueCard() {
     };
 
     const handleTeamNameChange = (index, value) => {
+        const sanitizedValue = value.replace(/[^a-zA-Z\s]/g, '');
         const newTeams = [...teams];
-        newTeams[index] = value;
+        newTeams[index] = sanitizedValue;
         setTeams(newTeams);
     };
 
     const handleSubmit = () => {
+        if (!teamsCount || teamsCount <= 0) {
+            showErrorAlert(t('Validation.Error'), t('Please.enter.number.of.teams'));
+            return;
+        }
+
+        for (let i = 0; i < teams.length; i++) {
+            const teamName = teams[i].trim();
+            if (!teamName) {
+                showErrorAlert(t('Validation.Error'), t('Team.name.cannot.be.empty', { teamNumber: i + 1 }));
+                return;
+            }
+            if (/[^a-zA-Z\s]/.test(teamName)) {
+                showErrorAlert(t('Validation.Error'), t('Team.name.invalid.characters', { teamNumber: i + 1 }));
+                return;
+            }
+        }
+
         setLoading(true);
+        setIsLoading(true); // Set loading to true in App.js
         saveLeagueSetup({
             teams,
             roundType,
         });
         setTimeout(() => {
             setLoading(false);
+            setIsLoading(false); // Set loading to false in App.js after timeout
             navigate('/league');
+            showSuccessAlert(t('show.Success.Alert1'), t('show.Success.Alert2'));
         }, 5000);
     };
 
@@ -72,7 +97,7 @@ export default function GlassLeagueCard() {
     return (
         <div className="scrollable-page">
             <div className="ultimate-glass-card">
-                <h1 className="centered-title">⚽ إعدادات البطولة</h1>
+                <h1 className="centered-title">{t('Tournament.Settings')}</h1>
 
                 <div className="input-section">
                     <div className="input-box glow-on-hover">
@@ -83,8 +108,9 @@ export default function GlassLeagueCard() {
                             className="cyber-input"
                             placeholder=" "
                             min="0"
+                            required
                         />
-                        <label className="cyber-label">كم عدد الفرق؟</label>
+                        <label className="cyber-label">{t('How.many.teams')}</label>
                         <div className="cyber-highlight"></div>
                         <div className="cyber-underline">
                             <div className="cyber-underline-active"></div>
@@ -92,16 +118,19 @@ export default function GlassLeagueCard() {
                         <div className="cyber-glow"></div>
                     </div>
 
-                    {teams.map((t, i) => (
+                    {teams.map((team, i) => (
                         <div className="input-box glow-on-hover" key={i}>
                             <input
                                 type="text"
                                 placeholder=" "
-                                value={t}
+                                value={team}
                                 onChange={e => handleTeamNameChange(i, e.target.value)}
                                 className="cyber-input"
+                                required
+                                pattern="[a-zA-Z\s]+"
+                                title={t('Only.alphabetic.characters.allowed')}
                             />
-                            <label className="cyber-label">{`اسم الفريق ${i + 1}`}</label>
+                            <label className="cyber-label">{`${t('Team.Name')} ${i + 1}`}</label>
                             <div className="cyber-highlight"></div>
                             <div className="cyber-underline">
                                 <div className="cyber-underline-active"></div>
@@ -117,9 +146,10 @@ export default function GlassLeagueCard() {
                             value={roundType}
                             onChange={(e) => setRoundType(e.target.value)}
                             className="modern-select"
+                            required
                         >
-                            <option value="double-round">ذهاب وإياب</option>
-                            <option value="single-round">ذهاب فقط</option>
+                            <option value="double-round">{t('Home.and.Away')}</option>
+                            <option value="single-round">{t('Single.Match')}</option>
                         </select>
                         <div className="select-decoration">
                             <span className="select-arrow">

@@ -1,18 +1,23 @@
 import React from 'react';
 import '../styles/MatchesTable.css';
+import { useTranslation } from 'react-i18next';
 
 const MatchesTable = ({ rounds, updateScore }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="matches-container">
       {rounds.map((round, roundIndex) => (
-        <div key={roundIndex} className="round-card">
-          <h3 className="round-header">الجولة {roundIndex + 1}</h3>
+        <div key={roundIndex} className={`round-section ${roundIndex > 0 ? 'round-border' : ''}`}>
+          <h3 className="round-header">
+            {t('round.header')} {roundIndex + 1}
+          </h3>
           <table className="match-table">
             <thead>
               <tr>
-                <th>الفريق المستضيف</th>
-                <th>النتيجة</th>
-                <th>الفريق الضيف</th>
+                <th>{t('match.table1')}</th>
+                <th>{t('match.table2')}</th>
+                <th>{t('match.table3')}</th>
               </tr>
             </thead>
             <tbody>
@@ -21,7 +26,7 @@ const MatchesTable = ({ rounds, updateScore }) => {
                   <td className="team-name">{match.home}</td>
                   <td className="score-cell">
                     {match.home === 'BYE' || match.away === 'BYE' ? (
-                      <span className="bye-text">راحة</span>
+                      <span className="bye-text">{t('bye.team')}</span>
                     ) : (
                       <>
                         <input
@@ -33,7 +38,7 @@ const MatchesTable = ({ rounds, updateScore }) => {
                           placeholder="0"
                           className="score-input"
                         />
-                        -
+                        <span className="score-separator">-</span>
                         <input
                           type="text"
                           value={match.awayScore}

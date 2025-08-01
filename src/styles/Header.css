@@ -1,0 +1,26 @@
+/* src/styles/TemporaryHeader.css */
+
+.temporary-header {
+  background-color: #4a90e2; /* Light blue background */
+  color: white; /* White text */
+  padding: 1rem; /* Padding around the header */
+  text-align: center; /* Center the text */
+  position: relative; /* Positioning */
+}
+
+/* Show the header only on mobile devices */
+@media (min-width: 769px) {
+  .temporary-header {
+    display: none; /* Hide the header on larger screens */
+  }
+}
+
+.header-content h1 {
+  margin: 0; /* Remove default margin */
+  font-size: 2rem; /* Font size for the header */
+}
+
+.header-content p {
+  margin: 0; /* Remove default margin */
+  font-size: 1rem; /* Font size for the subtext */
+}

@@ -1,0 +1,67 @@
+/* src/styles/LanguageSelector.css */
+.language-switcher {
+  /* Remove position: fixed; top; right; */
+  z-index: 1000;
+  /* Adjust margin-top if needed, but gap in App.js handles spacing */
+}
+
+.language-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px; /* Match ThemeToggleButton's border-radius */
+  padding: 0.5rem 1rem; /* Match ThemeToggleButton's padding */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white; /* Ensure text color is white */
+  box-shadow: 0 0 10px rgba(100, 220, 255, 0.7); /* Add a similar shadow */
+}
+
+.language-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.flag-icon {
+  width: 20px;
+  height: 15px;
+}
+
+.chevron {
+  transition: transform 0.3s ease;
+}
+
+.chevron.open {
+  transform: rotate(180deg);
+}
+
+.language-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.language-dropdown button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: white; /* Ensure text color is white */
+}
+
+.language-dropdown button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
