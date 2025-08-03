@@ -48,10 +48,14 @@
   text-shadow: none; /* glowing blue shadow */
   letter-spacing: 0.05em;      /* Slight spacing between letters */
   margin: 1.5rem 0 2rem 0;     /* vertical spacing */
-  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* modern font */
   user-select: none;           /* Prevent accidental selection */
   transition: color 0.3s ease;
   cursor: default;
+  font-family: 'Montserrat', sans-serif;
+}
+
+[lang="ar"] .league-title {
+  font-family: 'Tajawal', sans-serif;
 }
 
 .league-title:hover {
@@ -161,10 +165,6 @@
 
 /* Mobile Responsiveness */
 @media (max-width: 480px) {
-  .teams-editor {
-     height: 25vh; /* Full height of the viewport */
-    overflow-y: auto; /* Enable vertical scrolling */
-  }
 
   .action-buttons {
     display: flex;
@@ -230,6 +230,11 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+[lang="ar"] .tab-content {
+  font-family: 'Tajawal', sans-serif;
 }
 
 .tab-content::before {
@@ -662,6 +667,14 @@ label {
   [data-theme='dark'] {
     color-scheme: dark only;
   }
+.league-page {
+  padding-top: 4.5rem; /* same height as fixed header */
+  font-family: 'Montserrat', sans-serif;
+}
+[lang="ar"] .league-page {
+  font-family: 'Tajawal', sans-serif;
+  direction: rtl;
+}
 
   :where(.fluid) {
     --fluid-min: calc(
@@ -694,8 +707,6 @@ label {
     display: grid;
     place-items: center;
     min-height: 100vh;
-    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
-      Helvetica, Arial, sans-serif, system-ui;
   }
 
   body::before {
@@ -753,4 +764,63 @@ label {
     border-width: 0;
   }
   
+}
+/* Settings Icon Styles */
+.settings-title-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.settings-icon {
+  font-size: 2.8rem;
+  color: #64dcff;
+  filter: drop-shadow(0 0 8px rgba(100, 220, 255, 0.7));
+  animation: rotate 8s linear infinite;
+  transition: all 0.3s ease;
+}
+
+.settings-icon:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 12px rgba(100, 220, 255, 0.9));
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Tooltip styles for hover effect */
+.settings-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  font-family: 'Montserrat', sans-serif;
+}
+
+[lang="ar"] .settings-tooltip {
+  font-family: 'Tajawal', sans-serif;
+}
+
+.settings-title-wrapper:hover .settings-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .settings-icon {
+    font-size: 2.2rem;
+  }
 }

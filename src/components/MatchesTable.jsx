@@ -3,10 +3,10 @@ import '../styles/MatchesTable.css';
 import { useTranslation } from 'react-i18next';
 
 const MatchesTable = ({ rounds, updateScore }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
-    <div className="matches-container">
+    <div className="matches-container" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
       {rounds.map((round, roundIndex) => (
         <div key={roundIndex} className={`round-section ${roundIndex > 0 ? 'round-border' : ''}`}>
           <h3 className="round-header">

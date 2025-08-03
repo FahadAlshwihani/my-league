@@ -8,7 +8,6 @@
   padding: 1.5rem 2rem;
   text-align: center;
   color: var(--text-color, #f0f0f0); /* Use theme text color */
-  font-family: 'Poppins', sans-serif;
   font-size: 0.95rem;
   position: relative; /* For pseudo-elements or internal positioning */
   bottom: 0;
@@ -16,6 +15,11 @@
   width: 100%;
   z-index: 999; /* Ensure it's above other content but below modals */
   margin-top: 4rem; /* Add some space above the footer */
+  font-family: 'Montserrat', sans-serif; /* Already present */
+}
+
+[lang="ar"] .modern-footer {
+  font-family: 'Tajawal', sans-serif; /* Already present */
 }
 
 .footer-content {

@@ -4,7 +4,6 @@
   border-collapse: separate;
   border-spacing: 0 8px;
   min-width: 600px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #e0e0e0;
   font-size: 1rem;
   transition: all 0.3s ease;
@@ -81,8 +80,7 @@
   }
 
   .teams-container {
-    max-height: 65vh; /* Set a max height to allow scrolling */
-    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-y: hidden; /* Enable vertical scrolling */
     padding: 20px; /* Optional padding */
     box-sizing: border-box; /* Include padding in height */
   }
@@ -165,7 +163,6 @@
   border-collapse: separate;
   border-spacing: 0 8px;
   min-width: 600px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #e0e0e0;
   font-size: 1rem;
   transition: all 0.3s ease;

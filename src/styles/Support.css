@@ -1,0 +1,286 @@
+:root {
+  --english-font: 'Montserrat', sans-serif;
+  --arabic-font: 'Tajawal', sans-serif;
+}
+
+.support-center-container {
+  display: flex;
+  padding-top: 6rem;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #0a0a15;
+  position: relative;
+  overflow: hidden;
+  font-family: var(--english-font); /* Default to English font */
+}
+
+[lang="ar"] .support-center-container {
+  font-family: var(--arabic-font); /* Apply Arabic font when lang is 'ar' */
+}
+
+.support-center-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+/* Title styles */
+.title-center-wrapper {
+  text-align: center;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.center-title-gradient {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 0 0 15px;
+  background: linear-gradient(90deg, #ffffff, #a5b4fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.center-subtitle {
+  color: #a5b4fc;
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+/* Form styles */
+.center-glass-form {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.center-form-group {
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+.center-glass-input,
+.center-glass-select,
+.center-glass-textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 15px 20px;
+  color: white;
+  font-size: 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.center-glass-input:focus,
+.center-glass-select:focus,
+.center-glass-textarea:focus {
+  outline: none;
+  border-color: rgba(165, 180, 252, 0.3);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.center-glass-input::placeholder,
+.center-glass-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+
+.center-glass-select {
+  appearance: none; /* Remove default browser styling */
+  -webkit-appearance: none; /* For Safari */
+  -moz-appearance: none; /* For Firefox */
+  cursor: pointer;
+  text-align-last: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px; /* Slightly more rounded */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  padding-right: 40px; /* Space for custom arrow */
+  position: relative; /* For custom arrow positioning */
+}
+
+/* Custom arrow for select */
+.center-glass-select::after {
+  content: '▼'; /* Unicode down arrow */
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.7);
+  pointer-events: none; /* Ensure clicks pass through to select */
+  transition: transform 0.3s ease;
+}
+
+.center-glass-select:focus::after {
+  transform: translateY(-50%) rotate(180deg); /* Rotate arrow on focus */
+}
+
+/* Styling for options within the select */
+.center-glass-select option {
+  background-color: #1a1a2e; /* Dark background for options */
+  color: white; /* White text for options */
+  padding: 10px; /* Add padding to options */
+  border-radius: 5px; /* Rounded corners for options */
+  text-align: center; /* Center text in options */
+}
+
+/* Hover effect for options */
+.center-glass-select option:hover {
+  background-color: rgba(165, 180, 252, 0.2); /* Light blue background on hover */
+  color: #a5b4fc; /* Light blue text on hover */
+}
+
+.center-glass-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Button styles */
+.center-submit-btn {
+  width: 100%;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  padding: 16px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.center-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+}
+
+.center-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.center-spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+/* Success message */
+.glass-success-message {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #a7f3d0;
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Footer positioning */
+.support-footer {
+  margin-top: auto;
+  padding: 20px;
+  width: 100%;
+}
+
+/* Floating background elements */
+.floating-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.15;
+  z-index: 1;
+}
+
+.orb-1 {
+  width: 300px;
+  height: 300px;
+  background: #6366f1;
+  top: 15%;
+  left: 15%;
+  animation: float 18s infinite alternate ease-in-out;
+}
+
+.orb-2 {
+  width: 400px;
+  height: 400px;
+  background: #8b5cf6;
+  bottom: 15%;
+  right: 15%;
+  animation: float 20s infinite alternate-reverse ease-in-out;
+}
+
+.orb-3 {
+  width: 250px;
+  height: 250px;
+  background: #a5b4fc;
+  top: 60%;
+  left: 20%;
+  animation: float 15s infinite alternate ease-in-out;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, 20px);
+  }
+  100% {
+    transform: translate(-20px, -20px);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .support-center-content {
+    padding: 20px 15px;
+  }
+  
+  .center-title-gradient {
+    font-size: 2.5rem;
+  }
+  
+  .center-glass-form {
+    padding: 20px;
+  }
+}

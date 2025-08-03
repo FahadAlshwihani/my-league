@@ -4,8 +4,10 @@ import TeamsTable from '../components/TeamsTable';
 import { FaPrint, FaUndo, FaTable, FaFutbol, FaPen, FaTrophy } from 'react-icons/fa';
 import '../styles/LeaguePage.css';
 import { useNavigate } from 'react-router-dom';
-import { showConfirmAlert, showErrorAlert } from '../utils/sweetAlert'; // Import showConfirmAlert and showErrorAlert
+import { showConfirmAlert, showErrorAlert } from '../utils/sweetAlert';
 import { useTranslation } from 'react-i18next';
+import { FiSettings } from 'react-icons/fi';
+
 
 import {
   saveLeagueSetup,
@@ -17,7 +19,9 @@ import {
 } from '../utils/storage';
 
 export default function LeaguePage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language || 'en';
+
   const setup = useMemo(() => loadLeagueSetup(), []);
   const savedRounds = useMemo(() => loadLeagueMatches(), []);
   const navigate = useNavigate();
@@ -103,8 +107,8 @@ export default function LeaguePage() {
   }, []);
 
   const updateTeamName = useCallback((index, newName) => {
-    // Allow only alphabetic characters and spaces
-    const sanitizedValue = newName.replace(/[^a-zA-Z\s]/g, '');
+    // Allow alphabetic characters, Arabic characters, and spaces
+    const sanitizedValue = newName.replace(/[^a-zA-Z\s\u0621-\u064A\u0660-\u0669]/g, '');
 
     // Validation for empty team name
     if (!sanitizedValue.trim()) {
@@ -112,8 +116,8 @@ export default function LeaguePage() {
       return;
     }
 
-    // Validation for non-alphabetic characters
-    if (/[^a-zA-Z\s]/.test(sanitizedValue.trim())) {
+    // Validation for invalid characters
+    if (/[^a-zA-Z\s\u0621-\u064A\u0660-\u0669]/.test(sanitizedValue.trim())) {
       showErrorAlert(t('Validation.Error'), t('Only.alphabetic.characters.allowed'));
       return;
     }
@@ -138,7 +142,7 @@ export default function LeaguePage() {
         }))
       )
     );
-  }, [teams, setup]);
+  }, [teams, setup, t]);
 
   const resetLeague = useCallback(() => {
     showConfirmAlert(
@@ -153,13 +157,12 @@ export default function LeaguePage() {
         window.location.href = '/';
       }
     });
-  }, []);
+  }, [t]);
 
   const handleTabChange = (event) => {
     setActiveTab(event.target.id);
   };
 
-  // 🔍 Extract unique teams from rounds
   const extractTeamsFromRounds = (rounds) => {
     const teamSet = new Set();
     rounds.flat().forEach(match => {
@@ -171,7 +174,6 @@ export default function LeaguePage() {
 
   const teamsFromRounds = useMemo(() => extractTeamsFromRounds(rounds), [rounds]);
 
-  // Function to calculate standings for the "End League" button
   const calculateStandingsForEndLeague = useCallback(() => {
     const table = teamsFromRounds.map(team => ({
       team,
@@ -238,8 +240,8 @@ export default function LeaguePage() {
     ).then((willEnd) => {
       if (willEnd) {
         const finalStandings = calculateStandingsForEndLeague();
-        clearLeagueSetup(); // Clear setup data
-        clearLeagueMatches(); // Clear matches data
+        clearLeagueSetup();
+        clearLeagueMatches();
         navigate('/winners', { state: { standings: finalStandings } });
       }
     });
@@ -247,7 +249,11 @@ export default function LeaguePage() {
 
   return (
     <div className="league-page">
-      <h1 className="league-title">{t('league.title')}</h1>
+      <div className="settings-title-wrapper">
+        <FiSettings className="settings-icon" />
+        <span className="settings-tooltip">{t('league.title')}</span>
+      </div>
+
       <div className="control">
         <div className="control__track">
           <div className="indicator"></div>
@@ -292,7 +298,7 @@ export default function LeaguePage() {
         </div>
       </div>
 
-      <div className={`tab-content ${activeTab === 'editTeams' ? 'fade-in' : 'fade-out'}`}>
+      <div className={`tab-content ${activeTab === 'editTeams' ? 'fade-in' : 'fade-out'}`} dir={currentLang === 'ar' ? 'rtl' : 'ltr'} lang={currentLang}>
         {activeTab === 'editTeams' && (
           <>
             <h2 className="creative-heading">{t('creative.heading')}</h2>
@@ -313,7 +319,6 @@ export default function LeaguePage() {
                 <div className="action-buttons">
                   <button className="glass-button" onClick={() => window.print()} aria-label="Print Results"><FaPrint /></button>
                   <button className="glass-button" onClick={resetLeague} aria-label="Reset League"><FaUndo /></button>
-                  {/* New End League Button */}
                   <button className="glass-button end-league-btn" onClick={handleEndLeague} aria-label="End League">
                     <FaTrophy />
                   </button>
@@ -322,16 +327,19 @@ export default function LeaguePage() {
             </div>
           </>
         )}
+
         {activeTab === 'standings' && (
-          <div className={`standings-tab fade-in`}>
+          <div className={`standings-tab fade-in`} dir={currentLang === 'ar' ? 'rtl' : 'ltr'} lang={currentLang}>
             <TeamsTable teams={teamsFromRounds} rounds={rounds} />
           </div>
         )}
+
         {activeTab === 'matches' && (
-          <div className={`matches-tab fade-in`}>
+          <div className={`matches-tab fade-in`} style={{ display: 'flex', justifyContent: 'center' }} dir={currentLang === 'ar' ? 'rtl' : 'ltr'} lang={currentLang}>
             <MatchesTable rounds={rounds} updateScore={updateScore} />
           </div>
         )}
+
       </div>
     </div>
   );

@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/TeamsTable.css';
-import { FaPrint } from 'react-icons/fa';
-import { useTranslation } from 'react-i18next'; // Import useTranslation
-
+import { useTranslation } from 'react-i18next';
 
 const medalIcons = ['🥇', '🥈', '🥉'];
 
-// Normalize helper function
-const normalize = name => name?.toString().trim().toLowerCase().replace(/\s+/g, '');
+// Normalize team names helper
+const normalize = name => name?.toString().trim().toLowerCase().replace(/\s+/g, '').replace(/[^a-zA-Z\u0621-\u064A\u0660-\u0669]/g, '');
 
 export default function TeamsTable({ teams, rounds }) {
-  const { t } = useTranslation(); // ✅ Hook inside the component
+  const { t, i18n } = useTranslation();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -32,7 +30,7 @@ export default function TeamsTable({ teams, rounds }) {
       lose: 0,
       gf: 0,
       ga: 0,
-      pts: 0
+      pts: 0,
     }));
 
     const allMatches = rounds.flat();
@@ -74,16 +72,14 @@ export default function TeamsTable({ teams, rounds }) {
       }
     });
 
-    return table.sort((a, b) =>
-      b.pts - a.pts || (b.gf - b.ga) - (a.gf - a.ga)
-    );
+    return table.sort((a, b) => b.pts - a.pts || (b.gf - b.ga) - (a.gf - a.ga));
   };
 
   const standings = calculateTable();
 
   if (isMobile) {
     return (
-      <div className="teams-container">
+      <div className="teams-container" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
         <h2 className="creative-heading-team">{t('creative.heading.team')}</h2>
         <div className="teams-grid">
           {standings.map((s, index) => (
@@ -106,16 +102,26 @@ export default function TeamsTable({ teams, rounds }) {
   }
 
   return (
-    <div className="print-area">
-      <h2 className='creative-heading-team'>{t('creative.heading.team')}</h2>
+    <div className="print-area" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
+      <h2 className="creative-heading-team">{t('creative.heading.team')}</h2>
       <table className="teams-table">
         <thead>
-          <tr><th>{t('teams.table.stat1')}</th><th>{t('teams.table.stat2')}</th><th>{t('teams.table.stat7')}</th><th>{t('teams.table.stat3')}</th><th>{t('teams.table.stat4')}</th><th>{t('teams.table.stat5')}</th><th>{t('teams.table.stat6')}</th></tr>
+          <tr>
+            <th>{t('teams.table.stat1')}</th>
+            <th>{t('teams.table.stat2')}</th>
+            <th>{t('teams.table.stat7')}</th>
+            <th>{t('teams.table.stat3')}</th>
+            <th>{t('teams.table.stat4')}</th>
+            <th>{t('teams.table.stat5')}</th>
+            <th>{t('teams.table.stat6')}</th>
+          </tr>
         </thead>
         <tbody>
           {standings.map((s, index) => (
             <tr key={s.team}>
-              <td>{medalIcons[index] && <span className="medal-icon">{medalIcons[index]}</span>} {s.team}</td>
+              <td>
+                {medalIcons[index] && <span className="medal-icon">{medalIcons[index]}</span>} {s.team}
+              </td>
               <td>{s.played}</td>
               <td>{s.win}</td>
               <td>{s.draw}</td>

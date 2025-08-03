@@ -17,10 +17,11 @@ const WinnerContainer = styled.div`
   padding: 2rem;
   position: relative;
   overflow: hidden;
-  font-family: 'Poppins', sans-serif;
+  margin-top: 60px; /* 👈 Add this line */
+  font-family: 'Montserrat', sans-serif; /* Default font */
 
-  @media (max-width: 768px) {
-    height: 60vh; /* Set height for mobile browsers */
+  [lang="ar"] & {
+    font-family: 'Tajawal', sans-serif; /* Arabic font */
   }
 `;
 
@@ -245,7 +246,6 @@ const WinnersPage = () => {
 
     const generateConfetti = () => {
       const newConfetti = [];
-
       for (let i = 0; i < 60; i++) {
         const x = Math.random() * 100;
         const y = Math.random() * -20;
@@ -264,7 +264,6 @@ const WinnersPage = () => {
           />
         );
       }
-
       setConfetti(prev => [...prev, ...newConfetti].slice(-200));
     };
 
@@ -281,10 +280,7 @@ const WinnersPage = () => {
       const x = Math.random() * 100;
       const y = Math.random() * 60;
 
-      setFireworks(prev => [
-        ...prev,
-        <Firework key={Date.now()} x={x} y={y} color={color} />
-      ]);
+      setFireworks(prev => [...prev, <Firework key={Date.now()} x={x} y={y} color={color} />]);
 
       setTimeout(() => {
         setFireworks(prev => prev.slice(1));
@@ -297,9 +293,7 @@ const WinnersPage = () => {
   useEffect(() => {
     const sparkleList = [];
     for (let i = 0; i < 20; i++) {
-      sparkleList.push(
-        <Sparkle key={i} x={Math.random() * 100} y={Math.random() * 100} />
-      );
+      sparkleList.push(<Sparkle key={i} x={Math.random() * 100} y={Math.random() * 100} />);
     }
     setSparkles(sparkleList);
   }, []);
@@ -315,7 +309,7 @@ const WinnersPage = () => {
       <WinnerContainer>
         <WinnerTitle>{t('Winner.Title1')}</WinnerTitle>
         <HomeButton onClick={handleGoHome}>
-          <FaHome /> 
+          <FaHome />
         </HomeButton>
       </WinnerContainer>
     );
@@ -327,36 +321,62 @@ const WinnersPage = () => {
       {fireworksList}
       {sparkles}
       <WinnerTitle>
-        <FaTrophy />{t('Winner.Title2')}<FaTrophy /> 
+        <FaTrophy />
+        {t('Winner.Title2')}
+        <FaTrophy />
       </WinnerTitle>
       <PodiumContainer>
         {topThree[1] && (
-          <WinnerCard $background="linear-gradient(135deg, #c0c0c0 0%, #d3d3d3 100%)" $delay={0.3} style={{ height: '200px' }}>
+          <WinnerCard
+            $background="linear-gradient(135deg, #c0c0c0 0%, #d3d3d3 100%)"
+            $delay={0.3}
+            style={{ height: '200px' }}
+          >
             <PositionBadge $background="#c0c0c0">2</PositionBadge>
-            <Medal><IoMdMedal style={{ color: '#c0c0c0' }} /></Medal>
+            <Medal>
+              <IoMdMedal style={{ color: '#c0c0c0' }} />
+            </Medal>
             <TeamName>{topThree[1].team}</TeamName>
-            <Points>{topThree[1].pts} {t('points.1')}</Points>
+            <Points>
+              {topThree[1].pts} {t('points.1')}
+            </Points>
           </WinnerCard>
         )}
         {topThree[0] && (
-          <WinnerCard $background="linear-gradient(135deg, #ffd700 0%, #ffcc00 100%)" $delay={0} style={{ height: '300px' }}>
+          <WinnerCard
+            $background="linear-gradient(135deg, #ffd700 0%, #ffcc00 100%)"
+            $delay={0}
+            style={{ height: '300px' }}
+          >
             <PositionBadge $background="#ffd700">1</PositionBadge>
-            <Medal><FaMedal style={{ color: '#ffd700' }} /></Medal>
+            <Medal>
+              <FaMedal style={{ color: '#ffd700' }} />
+            </Medal>
             <TeamName>{topThree[0].team}</TeamName>
-            <Points>{topThree[0].pts} {t('points.1')}</Points>
+            <Points>
+              {topThree[0].pts} {t('points.1')}
+            </Points>
           </WinnerCard>
         )}
         {topThree[2] && (
-          <WinnerCard $background="linear-gradient(135deg, #cd7f32 0%, #d2b48c 100%)" $delay={0.6} style={{ height: '170px' }}>
+          <WinnerCard
+            $background="linear-gradient(135deg, #cd7f32 0%, #d2b48c 100%)"
+            $delay={0.6}
+            style={{ height: '170px' }}
+          >
             <PositionBadge $background="#cd7f32">3</PositionBadge>
-            <Medal><FaMedal style={{ color: '#cd7f32' }} /></Medal>
+            <Medal>
+              <FaMedal style={{ color: '#cd7f32' }} />
+            </Medal>
             <TeamName>{topThree[2].team}</TeamName>
-            <Points>{topThree[2].pts} {t('points.1')}</Points>
+            <Points>
+              {topThree[2].pts} {t('points.1')}
+            </Points>
           </WinnerCard>
         )}
       </PodiumContainer>
       <HomeButton onClick={handleGoHome}>
-        <FaHome /> 
+        <FaHome />
       </HomeButton>
     </WinnerContainer>
   );

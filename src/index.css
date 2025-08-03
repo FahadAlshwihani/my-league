@@ -1,41 +1,29 @@
 /* index.css - Modern Base Styles */
 
-/* Light theme variables (default) */
-    /* Add to the top of index.css */
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-        /* In index.css */
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden; /* Prevent horizontal scrolling */
-    }
-    
-     body {
-        font-family: var(--english-font) !important;
-      }
-      [lang="ar"] {
-        font-family: var(--arabic-font) !important;
-        direction: rtl;
-      }
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
 
+/* Declare fonts variables early */
 :root {
-  --background: #ffffff;
-  --text-color: #111111;
+
+  --background: #bec7f8;
+  --text-color: #000000;
   --scrollbar-track: rgba(220, 220, 220, 0.4);
   --scrollbar-thumb: rgba(100, 150, 255, 0.6);
   --selection-bg: rgba(0, 81, 255, 0.4);
   --selection-color: #111;
-  --code-bg: rgba(240, 240, 240, 0.5);
+  --code-bg: rgba(255, 255, 255, 0.5);
+
+  --vh: 100%;
 }
+
+/* Global font application */
+
 
 /* Dark theme variables */
 [data-theme="dark"] {
-  --background: linear-gradient(135deg, #121212 0%, #1a1a2e 100%);
+  --background: linear-gradient(135deg, #170f3f98 0%, #1a1a2e 100%);
   --text-color: #f0f0f0;
   --scrollbar-track: rgba(30, 30, 30, 0.4);
   --scrollbar-thumb: rgba(100, 220, 255, 0.4);
@@ -44,19 +32,58 @@
   --code-bg: rgba(30, 41, 59, 0.5);
 }
 
-body {
+/* Light theme variables */
+[data-theme="light"] {
+  --background: linear-gradient(135deg, #8a7dc97d 0%, #7e7e89 100%); /* Light gradient background */
+  --text-color: #000000; /* Text color for light theme */
+  --scrollbar-track: rgba(220, 220, 220, 0.4);
+  --scrollbar-thumb: rgba(100, 150, 255, 0.6);
+  --selection-bg: rgba(0, 81, 255, 0.4);
+  --selection-color: #111;
+  --code-bg: rgba(81, 18, 18, 0.5);
+}
+
+/* Base reset and layout */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
   margin: 0;
-  font-family: 'Poppins', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
   background: var(--background);
   color: var(--text-color);
+}
+
+html, body, #root {
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+.app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-container {
+  min-height: 100vh; /* Viewport height */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Body improvements */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   overscroll-behavior: none;
   overflow-x: hidden;
+  margin: 0;
 }
 
-/* Smooth scrolling behavior */
+/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
@@ -69,7 +96,7 @@ code {
   border-radius: 4px;
 }
 
-/* Global scrollbar styling */
+/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -88,13 +115,13 @@ code {
   background: rgba(100, 220, 255, 0.6);
 }
 
-/* Selection colors */
+/* Selection styling */
 ::selection {
   background: var(--selection-bg);
   color: var(--selection-color);
 }
 
-/* Responsive base font sizing */
+/* Responsive font sizing */
 :root {
   font-size: 16px;
 }
@@ -105,15 +132,13 @@ code {
   }
 }
 
-/* Remove all animations for reduced motion */
+/* Reduced motion accessibility */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
   
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

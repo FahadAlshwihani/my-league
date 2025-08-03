@@ -2,8 +2,9 @@
 
 /* Main Container */
 .matches-container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
   max-width: 900px;
+  min-width: 320px;
   margin: 3rem auto;
   display: flex;
   flex-direction: column;
@@ -21,6 +22,12 @@
   margin-right: auto;
 }
 
+.match-table th,
+.match-table td {
+  white-space: nowrap;
+  word-break: keep-all;
+}
+
 /* Round Section */
 .round-section {
   background: rgba(30, 40, 60, 0.7);
@@ -30,6 +37,10 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
+  margin: 2rem auto; /* centers horizontally */
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
 }
 
 .round-section:hover {
@@ -132,16 +143,24 @@
 /* Mobile-specific adjustments */
 @media (max-width: 768px) {
   .matches-container {
-    width: 100%; /* Force full width */
-    max-width: 100%;
+   width: 100%;
+  max-width: 900px;
+  min-width: 320px;
+  margin: 3rem auto;
+    margin-left: auto;
+    margin-right: auto;
     border-radius: 0;
-    margin: 0; /* Remove desktop margins */
     padding: 16px 12px; /* Slightly reduce padding */
     box-shadow: none;
     border: none;
-    height: 60vh; /* Full height of the viewport */
-    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-y: hidden; /* Enable vertical scrolling */
   }
+
+.match-table th,
+.match-table td {
+  white-space: nowrap;
+  word-break: keep-all;
+}
 
   .match-table .team-name {
     font-size: 0.8rem;        /* Adjusted size for better visibility */

@@ -1,0 +1,216 @@
+/* src/styles/RadialMenu.css */
+
+/* Radial Menu Container */
+.radial-menu-container {
+  position: relative; /* Keep as relative */
+  z-index: 10000; /* Ensure it's above other header content */
+  height: 4em; /* Match the radial menu button height */
+  width: 4em; /* Match the radial menu button width */
+}
+
+/* Overlay for the header when menu is active */
+.header-overlay {
+  position: fixed; /* Fixed to cover the entire header */
+  top: 0; /* Cover the entire header height */
+  left: 0; /* Cover the entire header width */
+  width: 100%; /* Full width */
+  height: 4.5rem; /* Match the header height */
+  background: rgba(0, 0, 0, 0.85); /* Dark overlay */
+  backdrop-filter: blur(8px); /* Increased blur effect */
+  z-index: 9998; /* Below the radial menu, above other header content */
+  opacity: 0;
+  pointer-events: none; /* Initially not clickable */
+  transition: opacity 0.3s ease;
+}
+
+.header-overlay.active {
+  opacity: 1;
+  pointer-events: auto; /* Becomes clickable when active */
+}
+
+/* Radial Menu */
+.radial-menu {
+  position: fixed; /* Fixed position */
+  top: 1rem; /* Position from the top */
+  left: 1rem; /* Position from the left */
+  width: 4em; /* Size for the main button */
+  height: 4em; /* Size for the main button */
+  z-index: 10000; /* Ensure it's above the overlay */
+}
+
+/* Trigger Button */
+.radial-menu .btn.trigger {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.8), 0 0 25px rgba(0, 242, 254, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.radial-menu .btn.trigger:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 242, 254, 1), 0 0 35px rgba(0, 242, 254, 0.7);
+}
+
+/* Hamburger menu lines */
+.radial-menu .btn.trigger .line,
+.radial-menu .btn.trigger .line::before,
+.radial-menu .btn.trigger .line::after {
+  position: absolute;
+  width: 50%;
+  height: 3px;
+  background: #000;
+  border-radius: 2px;
+  transition: 0.4s ease;
+}
+
+.radial-menu .btn.trigger .line {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.radial-menu .btn.trigger .line::before {
+  content: "";
+  top: -10px;
+  left: 0;
+  position: absolute;
+}
+
+.radial-menu .btn.trigger .line::after {
+  content: "";
+  top: 10px;
+  left: 0;
+  position: absolute;
+}
+
+.radial-menu.active .btn.trigger .line {
+  background: transparent;
+}
+
+.radial-menu.active .btn.trigger .line::before {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.radial-menu.active .btn.trigger .line::after {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Icons container */
+.radial-menu .icons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  --gap: 4.5em; /* Increased gap for better spacing of icons */
+}
+
+.radial-menu .rotater {
+  position: absolute;
+  width: 4em; /* Match main button size */
+  height: 4em; /* Match main button size */
+  top: 0;
+  left: 0;
+  pointer-events: none; /* Rotaters themselves are not clickable */
+}
+
+/* Button Icons */
+.radial-menu .btn-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3.2em; /* Slightly larger icons */
+  height: 3.2em; /* Slightly larger icons */
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #64dcff;
+  box-shadow: 0 0 10px rgba(100, 220, 255, 0.7), inset 0 0 8px rgba(100, 220, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto; /* Make buttons clickable */
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  transition: opacity 0.4s ease, transform 0.4s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.radial-menu.active .btn-icon {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.radial-menu .btn-icon:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 15px rgba(100, 220, 255, 1), inset 0 0 12px rgba(100, 220, 255, 0.6);
+  z-index: 5;
+}
+
+.radial-menu .btn-icon svg {
+  font-size: 1.3rem;
+  filter: drop-shadow(0 0 5px rgba(100, 220, 255, 0.8));
+}
+
+/* Spread layout - adjusted for new --gap value */
+.radial-menu.active .rotater:nth-child(1) .btn-icon {
+  transform: translate(calc(1 * var(--gap)), -50%) scale(1);
+  transition-delay: 0.05s;
+}
+.radial-menu.active .rotater:nth-child(2) .btn-icon {
+  transform: translate(calc(2 * var(--gap)), -50%) scale(1);
+  transition-delay: 0.1s;
+}
+.radial-menu.active .rotater:nth-child(3) .btn-icon {
+  transform: translate(calc(3 * var(--gap)), -50%) scale(1);
+  transition-delay: 0.15s;
+}
+.radial-menu.active .rotater:nth-child(4) .btn-icon {
+  transform: translate(calc(4 * var(--gap)), -50%) scale(1);
+  transition-delay: 0.2s;
+}
+.radial-menu.active .rotater:nth-child(5) .btn-icon {
+  transform: translate(calc(5 * var(--gap)), -50%) scale(1);
+  transition-delay: 0.25s;
+}
+
+/* Mobile Responsive - adjusted sizes and gaps */
+@media (max-width: 600px) {
+  .radial-menu-container {
+    height: 3.5em;
+    width: 3.5em;
+  }
+
+  .radial-menu {
+    width: 3.5em; /* Slightly smaller for mobile */
+    height: 3.5em; /* Slightly smaller for mobile */
+  }
+
+  .radial-menu .btn-icon {
+    width: 2.8em; /* Adjusted icon size for mobile */
+    height: 2.8em; /* Adjusted icon size for mobile */
+  }
+
+  .radial-menu .btn-icon svg {
+    font-size: 1.1rem; /* Adjusted icon font size for mobile */
+  }
+
+  .radial-menu .icons {
+    --gap: 3.8em; /* Adjusted gap for mobile */
+  }
+
+  .header-overlay {
+    /* Adjust for smaller header on mobile if needed */
+    top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}

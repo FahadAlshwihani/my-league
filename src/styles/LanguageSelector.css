@@ -1,5 +1,7 @@
 /* src/styles/LanguageSelector.css */
 .language-switcher {
+  position: relative;
+  display: inline-block;
   /* Remove position: fixed; top; right; */
   z-index: 1000;
   /* Adjust margin-top if needed, but gap in App.js handles spacing */
@@ -41,6 +43,10 @@
   position: absolute;
   right: 0;
   top: 100%;
+  left: 0;    /* Aligns dropdown with left edge of toggle */
+  right: auto; /* Prevent right-alignment */
+  min-width: 140px; /* Ensures consistent width */
+  transform: none; /* Remove transform (prevents shifting) */
   margin-top: 8px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);

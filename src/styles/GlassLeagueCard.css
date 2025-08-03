@@ -2,7 +2,7 @@
 .ultimate-glass-card {
     width: 100%;
     max-width: 900px;
-    margin: 3rem auto;
+    margin: 6rem auto 3rem auto;
     padding: 2.5rem;
     background: var(--background, rgba(255, 255, 255, 0.08));
     backdrop-filter: blur(25px);
@@ -15,19 +15,17 @@
     transition: all 0.4s ease;
     position: relative;
     overflow: hidden; /* Disable scrolling for both mobile and desktop */
-
 }
 
 @media (max-width: 768px) {
     .ultimate-glass-card {
         max-width: 90%;
-        margin: 0.5rem auto 1rem auto;
+        margin: 4rem auto 1rem auto; /* mobile top spacing increased */
         padding: 1rem;
         display: flex;
         flex-direction: column;
         align-items: center;
-        max-height: 70vh; /* Set a max height to allow scrolling */
-        overflow-y: auto;
+        overflow-y: hidden;
     }
     
     .scrollable-page {

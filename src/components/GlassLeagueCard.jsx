@@ -8,8 +8,8 @@ import LoadingScreen from './LoadingScreen';
 import { showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 import { useTranslation } from 'react-i18next';
 
-export default function GlassLeagueCard({ setIsLoading }) { // Accept setIsLoading prop
-    const { t } = useTranslation();
+export default function GlassLeagueCard({ setIsLoading }) {
+    const { t, i18n } = useTranslation();
     const [teamsCount, setTeamsCount] = useState('');
     const [teams, setTeams] = useState([]);
     const [roundType, setRoundType] = useState('double-round');
@@ -43,7 +43,7 @@ export default function GlassLeagueCard({ setIsLoading }) { // Accept setIsLoadi
     };
 
     const handleTeamNameChange = (index, value) => {
-        const sanitizedValue = value.replace(/[^a-zA-Z\s]/g, '');
+        const sanitizedValue = value.replace(/[^a-zA-Z\s\u0621-\u064A\u0660-\u0669]/g, ''); // Allow Arabic characters
         const newTeams = [...teams];
         newTeams[index] = sanitizedValue;
         setTeams(newTeams);
@@ -61,21 +61,21 @@ export default function GlassLeagueCard({ setIsLoading }) { // Accept setIsLoadi
                 showErrorAlert(t('Validation.Error'), t('Team.name.cannot.be.empty', { teamNumber: i + 1 }));
                 return;
             }
-            if (/[^a-zA-Z\s]/.test(teamName)) {
+            if (/[^a-zA-Z\s\u0621-\u064A\u0660-\u0669]/.test(teamName)) { // Allow Arabic characters
                 showErrorAlert(t('Validation.Error'), t('Team.name.invalid.characters', { teamNumber: i + 1 }));
                 return;
             }
         }
 
         setLoading(true);
-        setIsLoading(true); // Set loading to true in App.js
+        setIsLoading(true);
         saveLeagueSetup({
             teams,
             roundType,
         });
         setTimeout(() => {
             setLoading(false);
-            setIsLoading(false); // Set loading to false in App.js after timeout
+            setIsLoading(false);
             navigate('/league');
             showSuccessAlert(t('show.Success.Alert1'), t('show.Success.Alert2'));
         }, 5000);
@@ -95,7 +95,7 @@ export default function GlassLeagueCard({ setIsLoading }) { // Accept setIsLoadi
     }
 
     return (
-        <div className="scrollable-page">
+        <div className="scrollable-page" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'} lang={i18n.language}>
             <div className="ultimate-glass-card">
                 <h1 className="centered-title">{t('Tournament.Settings')}</h1>
 
@@ -127,7 +127,7 @@ export default function GlassLeagueCard({ setIsLoading }) { // Accept setIsLoadi
                                 onChange={e => handleTeamNameChange(i, e.target.value)}
                                 className="cyber-input"
                                 required
-                                pattern="[a-zA-Z\s]+"
+                                pattern="[a-zA-Z\s\u0621-\u064A\u0660-\u0669]+" // Allow Arabic characters
                                 title={t('Only.alphabetic.characters.allowed')}
                             />
                             <label className="cyber-label">{`${t('Team.Name')} ${i + 1}`}</label>
