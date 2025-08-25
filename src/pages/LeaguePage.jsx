@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import MatchesTable from '../components/MatchesTable';
 import TeamsTable from '../components/TeamsTable';
+import KnockoutBracket from '../components/KnockoutBracket'; // Import KnockoutBracket
 import { FaPrint, FaUndo, FaTable, FaFutbol, FaPen, FaTrophy } from 'react-icons/fa';
 import '../styles/LeaguePage.css';
 import { useNavigate } from 'react-router-dom';
@@ -28,9 +29,11 @@ export default function LeaguePage() {
 
   const [teams, setTeams] = useState(setup ? setup.teams : []);
   const [rounds, setRounds] = useState(savedRounds || []);
+  const [knockoutMatches, setKnockoutMatches] = useState(savedRounds || []); // State for knockout matches
   const [activeTab, setActiveTab] = useState('editTeams');
 
-  const generateRounds = useCallback((teams, isDoubleRound) => {
+  // Function to generate round-robin matches
+  const generateRoundRobin = useCallback((teams, isDoubleRound) => {
     if (!teams || teams.length === 0) return [];
 
     let t = [...teams];
@@ -81,42 +84,138 @@ export default function LeaguePage() {
     return rounds;
   }, []);
 
-  useEffect(() => {
-    if (setup && rounds.length === 0) {
-      const generatedRounds = generateRounds(setup.teams, setup.roundType === 'double-round');
-      setRounds(generatedRounds);
+  // Function to generate knockout matches
+// Function to generate knockout matches
+const generateKnockoutMatches = useCallback((teams) => {
+    if (!teams || teams.length === 0) return [];
+
+    let participants = [...teams];
+    if (participants.length % 2 !== 0) {
+        participants.push('BYE'); // Add a BYE if the number is odd
     }
-  }, [setup, generateRounds, rounds.length]);
+
+    const bracket = [];
+    const roundsCount = Math.log2(participants.length); // Calculate the number of rounds
+
+    // Generate matches for each round
+    for (let round = 0; round < roundsCount; round++) {
+        const currentRound = [];
+        const matchesInRound = participants.length / Math.pow(2, round + 1); // Number of matches in this round
+
+        for (let i = 0; i < matchesInRound; i++) {
+            const home = participants[i * 2];
+            const away = participants[i * 2 + 1];
+            currentRound.push({
+                home,
+                away,
+                homeScore: '',
+                awayScore: '',
+            });
+        }
+        bracket.push(currentRound);
+        
+        // Prepare for the next round
+        participants = currentRound.map((match, index) => `Winner of Match ${index + 1}`);
+    }
+
+    return bracket;
+}, []);
+
+
+
+
 
   useEffect(() => {
-    if (rounds.length > 0) {
-      saveLeagueMatches(rounds);
+    if (setup) {
+      if (setup.roundType === 'knockout') {
+        if (knockoutMatches.length === 0 || !savedRounds) { // Only generate if no saved matches
+          const generatedKnockout = generateKnockoutMatches(setup.teams);
+          setKnockoutMatches(generatedKnockout);
+          saveLeagueMatches(generatedKnockout);
+        }
+      } else {
+        if (rounds.length === 0 || !savedRounds) { // Only generate if no saved matches
+          const generatedRounds = generateRoundRobin(setup.teams, setup.roundType === 'double-round');
+          setRounds(generatedRounds);
+          saveLeagueMatches(generatedRounds);
+        }
+      }
     }
-  }, [rounds]);
+  }, [setup, generateRoundRobin, generateKnockoutMatches, rounds.length, knockoutMatches.length, savedRounds]);
+
+
+  useEffect(() => {
+    if (setup?.roundType === 'knockout') {
+      if (knockoutMatches.length > 0) {
+        saveLeagueMatches(knockoutMatches);
+      }
+    } else {
+      if (rounds.length > 0) {
+        saveLeagueMatches(rounds);
+      }
+    }
+  }, [rounds, knockoutMatches, setup]);
 
   const updateScore = useCallback((roundIndex, matchIndex, field, value) => {
-    setRounds(prevRounds => {
-      const newRounds = [...prevRounds];
-      newRounds[roundIndex] = [...newRounds[roundIndex]];
-      newRounds[roundIndex][matchIndex] = {
-        ...newRounds[roundIndex][matchIndex],
-        [field]: value === '' ? '' : parseInt(value) || 0,
-      };
-      return newRounds;
-    });
-  }, []);
+    if (setup.roundType === 'knockout') {
+      setKnockoutMatches(prevMatches => {
+        const newMatches = [...prevMatches];
+        newMatches[roundIndex] = [...newMatches[roundIndex]];
+        newMatches[roundIndex][matchIndex] = {
+          ...newMatches[roundIndex][matchIndex],
+          [field]: value === '' ? '' : parseInt(value) || 0,
+        };
+
+        // Determine winner and update next round
+        const currentMatch = newMatches[roundIndex][matchIndex];
+        if (currentMatch.homeScore !== '' && currentMatch.awayScore !== '') {
+          let winner = null;
+          if (currentMatch.homeScore > currentMatch.awayScore) {
+            winner = currentMatch.home;
+          } else if (currentMatch.awayScore > currentMatch.homeScore) {
+            winner = currentMatch.away;
+          } else {
+            // Handle draw in knockout (e.g., sudden death, replay, or specific rule)
+            // For simplicity, let's say higher seed wins or first team listed wins on draw
+            // Or, you can prevent draw by showing an error or forcing a winner
+            showErrorAlert(t('Knockout.Draw.Error'), t('Knockout.Draw.Message'));
+            return prevMatches; // Prevent update if draw is not allowed
+          }
+
+          if (winner && roundIndex + 1 < newMatches.length) {
+            const nextRoundMatchIndex = Math.floor(matchIndex / 2);
+            const isHomeTeamInNextRound = matchIndex % 2 === 0;
+
+            newMatches[roundIndex + 1] = [...newMatches[roundIndex + 1]];
+            newMatches[roundIndex + 1][nextRoundMatchIndex] = {
+              ...newMatches[roundIndex + 1][nextRoundMatchIndex],
+              [isHomeTeamInNextRound ? 'home' : 'away']: winner,
+            };
+          }
+        }
+        return newMatches;
+      });
+    } else {
+      setRounds(prevRounds => {
+        const newRounds = [...prevRounds];
+        newRounds[roundIndex] = [...newRounds[roundIndex]];
+        newRounds[roundIndex][matchIndex] = {
+          ...newRounds[roundIndex][matchIndex],
+          [field]: value === '' ? '' : parseInt(value) || 0,
+        };
+        return newRounds;
+      });
+    }
+  }, [setup, t]);
 
   const updateTeamName = useCallback((index, newName) => {
-    // Allow alphabetic characters, Arabic characters, and spaces
     const sanitizedValue = newName.replace(/[^a-zA-Z\s\u0621-\u064A\u0660-\u0669]/g, '');
 
-    // Validation for empty team name
     if (!sanitizedValue.trim()) {
       showErrorAlert(t('Validation.Error'), t('Team.name.cannot.be.empty'));
       return;
     }
 
-    // Validation for invalid characters
     if (/[^a-zA-Z\s\u0621-\u064A\u0660-\u0669]/.test(sanitizedValue.trim())) {
       showErrorAlert(t('Validation.Error'), t('Only.alphabetic.characters.allowed'));
       return;
@@ -133,15 +232,28 @@ export default function LeaguePage() {
     };
     saveLeagueSetup(updatedSetup);
 
-    setRounds(prev =>
-      prev.map(round =>
-        round.map(m => ({
-          ...m,
-          home: m.home === oldName ? sanitizedValue.trim() : m.home,
-          away: m.away === oldName ? sanitizedValue.trim() : m.away,
-        }))
-      )
-    );
+    // Update team names in both round-robin and knockout matches
+    if (setup.roundType === 'knockout') {
+      setKnockoutMatches(prev =>
+        prev.map(round =>
+          round.map(m => ({
+            ...m,
+            home: m.home === oldName ? sanitizedValue.trim() : m.home,
+            away: m.away === oldName ? sanitizedValue.trim() : m.away,
+          }))
+        )
+      );
+    } else {
+      setRounds(prev =>
+        prev.map(round =>
+          round.map(m => ({
+            ...m,
+            home: m.home === oldName ? sanitizedValue.trim() : m.home,
+            away: m.away === oldName ? sanitizedValue.trim() : m.away,
+          }))
+        )
+      );
+    }
   }, [teams, setup, t]);
 
   const resetLeague = useCallback(() => {
@@ -163,19 +275,29 @@ export default function LeaguePage() {
     setActiveTab(event.target.id);
   };
 
-  const extractTeamsFromRounds = (rounds) => {
+  const extractTeamsFromMatches = (matches) => {
     const teamSet = new Set();
-    rounds.flat().forEach(match => {
-      if (match.home && match.home !== 'BYE') teamSet.add(match.home.trim());
-      if (match.away && match.away !== 'BYE') teamSet.add(match.away.trim());
+    matches.flat().forEach(match => {
+      if (match.home && match.home !== 'BYE' && !match.home.startsWith('Winner of')) teamSet.add(match.home.trim());
+      if (match.away && match.away !== 'BYE' && !match.away.startsWith('Winner of')) teamSet.add(match.away.trim());
     });
     return Array.from(teamSet);
   };
 
-  const teamsFromRounds = useMemo(() => extractTeamsFromRounds(rounds), [rounds]);
+  const teamsForStandings = useMemo(() => {
+    if (setup?.roundType === 'knockout') {
+      return extractTeamsFromMatches(knockoutMatches);
+    } else {
+      return extractTeamsFromMatches(rounds);
+    }
+  }, [rounds, knockoutMatches, setup]);
+
 
   const calculateStandingsForEndLeague = useCallback(() => {
-    const table = teamsFromRounds.map(team => ({
+    const matchesToCalculate = setup?.roundType === 'knockout' ? knockoutMatches : rounds;
+    const teamsToCalculate = teamsForStandings;
+
+    const table = teamsToCalculate.map(team => ({
       team,
       normalized: team.toString().trim().toLowerCase().replace(/\s+/g, ''),
       played: 0,
@@ -187,10 +309,10 @@ export default function LeaguePage() {
       pts: 0
     }));
 
-    const allMatches = rounds.flat();
+    const allMatches = matchesToCalculate.flat();
 
     allMatches.forEach(m => {
-      if (m.homeScore !== '' && m.awayScore !== '') {
+      if (m.homeScore !== '' && m.awayScore !== '' && m.home !== 'BYE' && m.away !== 'BYE') {
         const homeName = m.home.toString().trim().toLowerCase().replace(/\s+/g, '');
         const awayName = m.away.toString().trim().toLowerCase().replace(/\s+/g, '');
 
@@ -226,10 +348,30 @@ export default function LeaguePage() {
       }
     });
 
+    // For knockout, the winner is the last team standing
+    if (setup?.roundType === 'knockout' && knockoutMatches.length > 0) {
+      const finalMatch = knockoutMatches[knockoutMatches.length - 1][0];
+      let winnerTeam = null;
+      if (finalMatch && finalMatch.homeScore !== '' && finalMatch.awayScore !== '') {
+        if (finalMatch.homeScore > finalMatch.awayScore) {
+          winnerTeam = finalMatch.home;
+        } else if (finalMatch.awayScore > finalMatch.homeScore) {
+          winnerTeam = finalMatch.away;
+        }
+      }
+
+      if (winnerTeam) {
+        // Simple standings for knockout: winner first, then others by points/GD from played matches
+        const winnerEntry = table.find(t => t.team === winnerTeam);
+        const otherEntries = table.filter(t => t.team !== winnerTeam);
+        return [winnerEntry, ...otherEntries.sort((a, b) => b.pts - a.pts || (b.gf - b.ga) - (a.gf - a.ga))];
+      }
+    }
+
     return table.sort((a, b) =>
       b.pts - a.pts || (b.gf - b.ga) - (a.gf - a.ga)
     );
-  }, [teamsFromRounds, rounds]);
+  }, [teamsForStandings, rounds, knockoutMatches, setup]);
 
   const handleEndLeague = () => {
     showConfirmAlert(
@@ -330,13 +472,17 @@ export default function LeaguePage() {
 
         {activeTab === 'standings' && (
           <div className={`standings-tab fade-in`} dir={currentLang === 'ar' ? 'rtl' : 'ltr'} lang={currentLang}>
-            <TeamsTable teams={teamsFromRounds} rounds={rounds} />
+            <TeamsTable teams={teamsForStandings} rounds={setup?.roundType === 'knockout' ? knockoutMatches : rounds} />
           </div>
         )}
 
         {activeTab === 'matches' && (
           <div className={`matches-tab fade-in`} style={{ display: 'flex', justifyContent: 'center' }} dir={currentLang === 'ar' ? 'rtl' : 'ltr'} lang={currentLang}>
-            <MatchesTable rounds={rounds} updateScore={updateScore} />
+            {setup?.roundType === 'knockout' ? (
+              <KnockoutBracket matches={knockoutMatches} updateScore={updateScore} />
+            ) : (
+              <MatchesTable rounds={rounds} updateScore={updateScore} />
+            )}
           </div>
         )}
 

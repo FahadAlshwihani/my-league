@@ -91,5 +91,45 @@
     "callToActionText1": "If you like the site, feel free to share it with others —",
     "callToActionText2": "And if you have any feedback or ideas to improve it, I’d love to hear from you.",
     "signature": "Warm regards,\nEng. Fahad"
-  }
+  },
+
+  "roundNames": {
+    "roundOf64": "Round of 64",
+    "roundOf32": "Round of 32",
+    "roundOf16": "Round of 16",
+    "quarterfinals": "Quarterfinals",
+    "semifinals": "Semifinals",
+    "finals": "Finals",
+    "round": "Round"
+  },
+
+  "Validation": {
+    "Error": "Error",
+    "All.team.names.must.be.filled": "All team names must be filled",
+    "Team.names.must.be.unique": "Team names must be unique",
+    "Please.enter.a.valid.number.of.teams": "Please enter a valid number of teams"
+  },
+
+  "show": {
+    "Success": {
+      "Alert1": "League created successfully!",
+      "Alert2": "You can now view your league."
+    }
+
+  },
+  "Confirm": {
+    "Clear": "Confirm Clear"
+  },
+
+  "Are.you.sure.you.want.to.clear.all.tournament.data?": "Are you sure you want to clear all tournament data?",
+  "Yes.clear.it": "Yes, clear it",
+  "Cancel": "Cancel",
+  "Cleared!": "Cleared!",
+  "All.tournament.data.has.been.cleared": "All tournament data has been cleared",
+  "Knockout.Tournament": "Knockout Tournament",
+  "Team.names.must.be.unique": "Team names must be unique",
+  "Knockout.Draw.Error": "Error",
+  "Knockout.Draw.Message": "A knockout match cannot end in a draw"
 }
+
+

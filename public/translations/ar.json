@@ -73,6 +73,7 @@
   "category": "التصنيف",
   "your_message": "رسالتك",
   "send_message": "إرسال",
+
   "aboutMe": {
     "welcomeTitle": "أهلًا حياك في دورينا برو",
     "intro": "أنا فهد، مهندس حاسب، وسويت هالموقع عشان أرتّب وأسهّل علينا تنظيم البطولات بين الشباب.",
@@ -90,5 +91,45 @@
     "callToActionText1": "إذا أعجبك الموقع، لا تنسى تشاركه مع أصحابك،",
     "callToActionText2": "وإذا عندك أي ملاحظة أو فكرة تطور المشروع — تواصل معي، أسمعك بكل صدر رحب.",
     "signature": " شكرًا لأنك وصلت الى هنا,\nم. فهد"
-  }
+  },
+  
+  "roundNames": {
+    "roundOf64": "دور الـ64",
+    "roundOf32": "دور الـ32",
+    "roundOf16": "دور الـ16",
+    "quarterfinals": "ربع النهائي",
+    "semifinals": "نصف النهائي",
+    "finals": "النهائي",
+    "round": "الدور"
+  },
+
+
+  "Validation": {
+    "Error": "خطأ",
+    "All.team.names.must.be.filled": "يجب إدخال أسماء جميع الفرق",
+    "Team.names.must.be.unique": "يجب أن تكون أسماء الفرق فريدة",
+    "Please.enter.a.valid.number.of.teams": "يرجى إدخال عدد صحيح من الفرق"
+  },
+
+  "show": {
+    "Success": {
+      "Alert1": "تم إنشاء الدوري بنجاح!",
+      "Alert2": "يمكنك الآن عرض الدوري الخاص بك."
+    }
+
+  },
+  "Confirm": {
+    "Clear": "تأكيد المسح"
+  },
+
+  "Are.you.sure.you.want.to.clear.all.tournament.data?": "هل أنت متأكد أنك تريد مسح جميع بيانات البطولة؟",
+  "Yes.clear.it": "نعم، امسحها",
+  "Cancel": "إلغاء",
+  "Cleared!": "تم المسح!",
+  "All.tournament.data.has.been.cleared": "تم مسح جميع بيانات البطولة",
+  "Knockout.Tournament": "بطولة خروج المغلوب",
+  "Team.names.must.be.unique": "يجب أن تكون أسماء الفرق غير مكررة",
+  "Knockout.Draw.Error": "خطأ",
+  "Knockout.Draw.Message": "لا يمكن أن تنتهي مباراة خروج المغلوب بالتعادل"
+
 }

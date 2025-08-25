@@ -5,14 +5,14 @@ import { saveLeagueSetup, loadLeagueSetup, clearLeagueSetup } from '../utils/sto
 import { FaPlus, FaTrash } from 'react-icons/fa';
 import '../styles/GlassLeagueCard.css';
 import LoadingScreen from './LoadingScreen';
-import { showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
+import { showSuccessAlert, showErrorAlert, showConfirmAlert } from '../utils/sweetAlert';
 import { useTranslation } from 'react-i18next';
 
 export default function GlassLeagueCard({ setIsLoading }) {
     const { t, i18n } = useTranslation();
     const [teamsCount, setTeamsCount] = useState('');
     const [teams, setTeams] = useState([]);
-    const [roundType, setRoundType] = useState('double-round');
+    const [roundType, setRoundType] = useState('double-round'); // Default to double-round
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -37,61 +37,90 @@ export default function GlassLeagueCard({ setIsLoading }) {
     }, [teams, roundType]);
 
     const handleTeamsCount = (e) => {
-        const count = Number(e.target.value);
-        setTeamsCount(e.target.value);
+        const count = Math.max(0, Number(e.target.value)); // Ensure non-negative
+        setTeamsCount(count.toString());
         setTeams(Array(count).fill(''));
     };
 
     const handleTeamNameChange = (index, value) => {
         const sanitizedValue = value.replace(/[^a-zA-Z\s\u0621-\u064A\u0660-\u0669]/g, ''); // Allow Arabic characters
         const newTeams = [...teams];
+        
+        // Check if name already exists (case-insensitive)
+        const isDuplicate = newTeams.some((team, i) => 
+            i !== index && 
+            team.toLowerCase().trim() === sanitizedValue.toLowerCase().trim() &&
+            sanitizedValue.trim() !== ''
+        );
+
+        if (isDuplicate) {
+            showErrorAlert(t('Validation.Error'), t('Team.names.must.be.unique'));
+            return;
+        }
+
         newTeams[index] = sanitizedValue;
         setTeams(newTeams);
     };
 
+    const validateTeams = () => {
+        // Check empty names
+        if (teams.some(team => team.trim() === '')) {
+            showErrorAlert(t('Validation.Error'), t('All.team.names.must.be.filled'));
+            return false;
+        }
+
+        // Check for duplicates (case-insensitive)
+        const normalizedTeams = teams.map(team => team.toLowerCase().trim());
+        const uniqueTeams = new Set(normalizedTeams);
+        if (uniqueTeams.size !== teams.length) {
+            showErrorAlert(t('Validation.Error'), t('Team.names.must.be.unique'));
+            return false;
+        }
+
+        return true;
+    };
+
     const handleSubmit = () => {
         if (!teamsCount || teamsCount <= 0) {
-            showErrorAlert(t('Validation.Error'), t('Please.enter.number.of.teams'));
+            showErrorAlert(t('Validation.Error'), t('Please.enter.a.valid.number.of.teams'));
             return;
         }
 
-        for (let i = 0; i < teams.length; i++) {
-            const teamName = teams[i].trim();
-            if (!teamName) {
-                showErrorAlert(t('Validation.Error'), t('Team.name.cannot.be.empty', { teamNumber: i + 1 }));
-                return;
-            }
-            if (/[^a-zA-Z\s\u0621-\u064A\u0660-\u0669]/.test(teamName)) { // Allow Arabic characters
-                showErrorAlert(t('Validation.Error'), t('Team.name.invalid.characters', { teamNumber: i + 1 }));
-                return;
-            }
-        }
+        if (!validateTeams()) return;
 
         setLoading(true);
         setIsLoading(true);
         saveLeagueSetup({
             teams,
-            roundType,
+            roundType, // Save the selected round type
         });
         setTimeout(() => {
             setLoading(false);
             setIsLoading(false);
             navigate('/league');
             showSuccessAlert(t('show.Success.Alert1'), t('show.Success.Alert2'));
-        }, 5000);
+        }, 2000);
     };
 
     const handleClearStorage = () => {
-        clearLeagueSetup();
-        setTeamsCount('');
-        setTeams([]);
-        setRoundType('double-round');
+        showConfirmAlert(
+            t('Confirm.Clear'),
+            t('Are.you.sure.you.want.to.clear.all.tournament.data?'),
+            t('Yes.clear.it'),
+            t('Cancel')
+        ).then((willClear) => {
+            if (willClear) {
+                clearLeagueSetup();
+                setTeamsCount('');
+                setTeams([]);
+                setRoundType('double-round');
+                showSuccessAlert(t('Cleared!'), t('All.tournament.data.has.been.cleared'));
+            }
+        });
     };
 
     if (loading) {
-        return (
-            <LoadingScreen />
-        );
+        return <LoadingScreen />;
     }
 
     return (
@@ -150,6 +179,7 @@ export default function GlassLeagueCard({ setIsLoading }) {
                         >
                             <option value="double-round">{t('Home.and.Away')}</option>
                             <option value="single-round">{t('Single.Match')}</option>
+                            <option value="knockout">{t('Knockout.Tournament')}</option>
                         </select>
                         <div className="select-decoration">
                             <span className="select-arrow">

@@ -1,0 +1,263 @@
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --gold: #ffcc00;
+  --dark-bg: linear-gradient(135deg, #1a1a2e, #0f1626);
+  --line-color: rgba(255, 255, 255, 0.25);
+  --text: #fff;
+  --card-max-width: 260px;
+}
+
+/* 🧱 Container */
+.wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--dark-bg);
+  padding: 40px 20px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+  overflow-x: auto;
+}
+
+.title {
+  text-align: center;
+  color: var(--gold);
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 40px;
+  text-shadow: 2px 2px 6px #000;
+}
+
+/* 🧩 Bracket Grid */
+.bracket {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+}
+
+.round {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 20px;
+  width: 100%;
+  max-width: var(--card-max-width);
+  position: relative;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.round:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.roundName {
+  color: var(--gold);
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* 🎮 Match Box */
+.matches {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.match {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.match:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-3px);
+}
+
+.teamRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+
+.team {
+  font-weight: 600;
+  color: #e0e0e0;
+  font-size: 1rem;
+  flex: 1;
+  text-align: center;
+}
+
+.score {
+  background: rgba(255, 255, 255, 0.3);
+  color: var(--text);
+  border: none;
+  border-radius: 6px;
+  width: 60px;
+  padding: 8px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.vs {
+  color: var(--gold);
+  font-weight: bold;
+  margin: 12px 0 4px;
+  font-size: 0.9rem;
+}
+
+/* 🎯 Final Round Style */
+.final {
+  background: linear-gradient(135deg, #ffcc00, #ff9900);
+  color: #000 !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+}
+
+.final .roundName,
+.final .team,
+.final .vs {
+  color: #000 !important;
+}
+
+.final .score {
+  background: #fff !important;
+  color: #000 !important;
+}
+
+/* 🌲 Vertical Lines for Mobile */
+.round:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 30px;
+  background: var(--line-color);
+}
+
+/* 🌐 Desktop Tree Layout */
+@media screen and (min-width: 1024px) {
+  .bracket {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+  }
+
+  .round {
+    width: var(--card-max-width);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .matches {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 60px;
+    position: relative;
+  }
+
+  .match {
+    position: relative;
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  /* Horizontal line from each round to the next */
+  .round:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -40px;
+    width: 40px;
+    height: 2px;
+    background-color: var(--line-color);
+    z-index: 1;
+  }
+
+  /* Vertical lines connecting pairs of matches to next round */
+  .matches::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 100%;
+    width: 2px;
+    background-color: var(--line-color);
+    margin-left: 20px; /* space between vertical line and round */
+    z-index: 1;
+  }
+
+  /* Vertical line on each match connecting to next round's horizontal line */
+  .match::before {
+    content: '';
+    position: absolute;
+    width: 20px;  /* horizontal connector */
+    height: 2px;
+    background-color: var(--line-color);
+    right: -60px;  /* position horizontal line between matches */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+
+  /* Hide vertical & horizontal connectors for final round */
+  .final::after,
+  .final .matches::before,
+  .final .match::before {
+    display: none;
+  }
+
+  /* Adjust vertical lines to connect pairs correctly */
+  .matches > .match:nth-child(odd)::before {
+    top: 50%;
+  }
+
+  .matches > .match:nth-child(even)::before {
+    top: 50%;
+  }
+}
+
+/* Add to KnockoutBracket.module.css */
+.title {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.trophyIcon {
+  width: 60px;
+  height: 60px;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.trophyIcon:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.8));
+}
+
+@media (max-width: 768px) {
+  .trophyIcon {
+    width: 45px;
+    height: 45px;
+  }
+}
+

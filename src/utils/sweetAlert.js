@@ -8,7 +8,13 @@ import "../styles/SweetAlertCustom.css"
  * @param {string} text - The text content of the alert.
  */
 export const showSuccessAlert = (title, text) => {
-  swal(title, text, "success");
+  swal({
+    title: title,
+    text: text,
+    icon: "success",
+    buttons: false,
+    timer: 3000, // Auto-close after 3 seconds
+  });
 };
 
 /**
@@ -17,9 +23,18 @@ export const showSuccessAlert = (title, text) => {
  * @param {string} text - The text content of the alert.
  */
 export const showErrorAlert = (title, text) => {
-  swal(title, text, "error");
+  swal({
+    title: title,
+    text: text,
+    icon: "error",
+    buttons: true,
+  });
 };
 
+/**
+ * Displays a locked SweetAlert that prevents scrolling.
+ * @param {object} options - Options for the SweetAlert.
+ */
 export const showLockedSweetAlert = (options) => {
   // Lock scroll
   document.body.style.overflow = 'hidden';
@@ -42,7 +57,7 @@ export const showConfirmAlert = (title, text, confirmButtonText, cancelButtonTex
   return swal({
     title: title,
     text: text,
-    icon: "warning", // Use 'icon' instead of 'type' for SweetAlert 2.x compatibility, though original was 1.x
+    icon: "warning",
     buttons: {
       cancel: {
         text: cancelButtonText,
@@ -60,5 +75,7 @@ export const showConfirmAlert = (title, text, confirmButtonText, cancelButtonTex
       }
     },
     dangerMode: true, // Highlights the confirm button in red
+  }).then((willConfirm) => {
+    return willConfirm; // Resolve the promise with the confirmation result
   });
 };

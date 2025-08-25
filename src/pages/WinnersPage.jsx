@@ -229,7 +229,7 @@ const Sparkle = styled.div`
   pointer-events: none;
 `;
 
-const WinnersPage = () => {
+const WinnersPage = ({ tournamentType }) => { // Accept tournamentType as a prop
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
@@ -337,9 +337,12 @@ const WinnersPage = () => {
               <IoMdMedal style={{ color: '#c0c0c0' }} />
             </Medal>
             <TeamName>{topThree[1].team}</TeamName>
-            <Points>
-              {topThree[1].pts} {t('points.1')}
-            </Points>
+            {/* Conditionally render points based on tournament type */}
+            {tournamentType !== 'knockout' && (
+              <Points>
+                {topThree[1].pts} {t('points.1')}
+              </Points>
+            )}
           </WinnerCard>
         )}
         {topThree[0] && (
@@ -353,9 +356,12 @@ const WinnersPage = () => {
               <FaMedal style={{ color: '#ffd700' }} />
             </Medal>
             <TeamName>{topThree[0].team}</TeamName>
-            <Points>
-              {topThree[0].pts} {t('points.1')}
-            </Points>
+            {/* Conditionally render points based on tournament type */}
+            {tournamentType !== 'knockout' && (
+              <Points>
+                {topThree[0].pts} {t('points.1')}
+              </Points>
+            )}
           </WinnerCard>
         )}
         {topThree[2] && (
@@ -369,9 +375,12 @@ const WinnersPage = () => {
               <FaMedal style={{ color: '#cd7f32' }} />
             </Medal>
             <TeamName>{topThree[2].team}</TeamName>
-            <Points>
-              {topThree[2].pts} {t('points.1')}
-            </Points>
+            {/* Conditionally render points based on tournament type */}
+            {tournamentType !== 'knockout' && (
+              <Points>
+                {topThree[2].pts} {t('points.1')}
+              </Points>
+            )}
           </WinnerCard>
         )}
       </PodiumContainer>
